@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
-function CustomButton({ text, style, variant }) {
+function CustomButton({ id, text, style, variant, select }) {
   return (
-    <div>
+    <div onClick={() => select(id)}>
       <Button sx={{ width: 1, height: style.height }} variant={variant}>
         {text}
       </Button>

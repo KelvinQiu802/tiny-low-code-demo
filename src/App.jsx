@@ -22,12 +22,34 @@ function App() {
         },
       },
     },
+    {
+      tag: 'button',
+      id: nanoid(),
+      props: {
+        text: 'World',
+        variant: 'outlined',
+        style: {
+          position: 'absolute',
+          width: 100,
+          height: 30,
+          top: 500,
+          left: 500,
+        },
+      },
+    },
   ]);
+
+  const [selected, setSelected] = React.useState(null);
 
   return (
     <div className='App'>
       <ComponentList />
-      <Canvas data={data} setData={setData} />
+      <Canvas
+        data={data}
+        setData={setData}
+        selected={selected}
+        setSelected={setSelected}
+      />
       <PropertyList />
     </div>
   );

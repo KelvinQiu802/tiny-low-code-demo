@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Resizable({ children, defaultStyle, setData, id }) {
+function Resizable({ children, defaultStyle, setData, id, selected }) {
   const points = ['t', 'r', 'b', 'l', 'lt', 'rt', 'lb', 'rb'];
 
   const getPointStyle = (point) => {
@@ -110,7 +110,7 @@ function Resizable({ children, defaultStyle, setData, id }) {
 
   return (
     <div style={containerStyle}>
-      {points.map((point) => (
+      {(selected === id ? points : []).map((point) => (
         <div
           key={point}
           className='point'
