@@ -12,7 +12,11 @@ function Canvas({ data, setData }) {
   return (
     <div className='canvas' ref={drop}>
       {data.map((item) => (
-        <Resizable defaultStyle={item.props.style} setData={setData}>
+        <Resizable
+          defaultStyle={item.props.style}
+          setData={setData}
+          id={item.id}
+        >
           <CustomButton
             text={item.props.text}
             key={item.id}

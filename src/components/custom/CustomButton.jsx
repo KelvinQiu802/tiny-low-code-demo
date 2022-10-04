@@ -4,7 +4,7 @@ import React from 'react';
 function CustomButton({ text, style, variant }) {
   return (
     <div>
-      <Button sx={{ width: '100%', height: '100%' }} variant={variant}>
+      <Button sx={{ width: 1, height: style.height }} variant={variant}>
         {text}
       </Button>
     </div>

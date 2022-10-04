@@ -12,7 +12,7 @@ function App() {
       id: nanoid(),
       props: {
         text: 'Hello',
-        variant: 'outlined',
+        variant: 'contained',
         style: {
           position: 'absolute',
           width: 100,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Resizable({ children, defaultStyle, setData }) {
+function Resizable({ children, defaultStyle, setData, id }) {
   const points = ['t', 'r', 'b', 'l', 'lt', 'rt', 'lb', 'rb'];
 
   const getPointStyle = (point) => {
@@ -40,7 +40,65 @@ function Resizable({ children, defaultStyle, setData }) {
     return style;
   };
 
-  const handleMouseDown = (e, point) => {};
+  const handleMouseDown = (e, point) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const pos = { ...defaultStyle };
+    const height = pos.height;
+    const width = pos.width;
+    const top = pos.top;
+    const left = pos.left;
+    const startX = e.clientX;
+    const startY = e.clientY;
+
+    const handleMove = (e) => {
+      const curX = e.clientX;
+      const curY = e.clientY;
+      const disX = curX - startX;
+      const disY = curY - startY;
+      const hasT = point.includes('t');
+      const hasB = point.includes('b');
+      const hasL = point.includes('l');
+      const hasR = point.includes('r');
+      const newHeight = height + (hasT ? -disY : hasB ? disY : 0);
+      const newWidth = width + (hasL ? -disX : hasR ? disX : 0);
+      const newTop = top + (hasT ? disY : 0);
+      const newLeft = left + (hasL ? disX : 0);
+      // 更新状态
+      setData((prev) => {
+        const copyArr = [...prev];
+        const index = prev.findIndex((item) => item.id === id);
+        const copyItem = copyArr[index];
+        copyArr.splice(index, 1, {
+          ...copyItem,
+          props: {
+            ...copyItem.props,
+            style: {
+              ...copyItem.props.style,
+              width: newWidth,
+              height: newHeight,
+              top: newTop,
+              left: newLeft,
+            },
+          },
+        });
+        return copyArr;
+      });
+    };
+
+    const handleUp = () => {
+      // 清除事件
+      document.removeEventListener('mousemove', handleMove);
+      document.removeEventListener('mouseup', handleUp);
+    };
+
+    // 添加事件
+    if (e.currentTarget.classList.value.includes('point')) {
+      document.addEventListener('mousemove', handleMove);
+      document.addEventListener('mouseup', handleUp);
+    }
+  };
 
   const containerStyle = {
     position: 'absolute',
