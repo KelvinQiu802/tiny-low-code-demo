@@ -17,6 +17,7 @@ function Canvas({ data, setData, selected, setSelected }) {
     <div className='canvas' ref={drop}>
       {data.map((item) => (
         <Resizable
+          key={item.id}
           defaultStyle={item.props.style}
           setData={setData}
           id={item.id}

@@ -3,6 +3,13 @@ import React from 'react';
 function Resizable({ children, defaultStyle, setData, id, selected }) {
   const points = ['t', 'r', 'b', 'l', 'lt', 'rt', 'lb', 'rb'];
 
+  let boxHeight, boxWidth;
+  React.useEffect(() => {
+    const box = document.querySelector('.canvas');
+    boxHeight = box.offsetHeight;
+    boxWidth = box.offsetWidth;
+  });
+
   const getPointStyle = (point) => {
     const { width, height } = defaultStyle;
     const hasT = point.includes('t');
@@ -100,6 +107,57 @@ function Resizable({ children, defaultStyle, setData, id, selected }) {
     }
   };
 
+  const handleDrag = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const pos = { ...defaultStyle };
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startTop = pos.top;
+    const startLeft = pos.left;
+
+    const handleMove = (e) => {
+      const curX = e.clientX;
+      const curY = e.clientY;
+      const finalTop = startTop + curY - startY;
+      const finalLeft = startLeft + curX - startX;
+      if (
+        0 <= finalTop &&
+        finalTop <= boxHeight - pos.height &&
+        0 <= finalLeft &&
+        finalLeft <= boxWidth - pos.width
+      ) {
+        setData((prev) => {
+          const copyArr = [...prev];
+          const index = prev.findIndex((item) => item.id === id);
+          const copyItem = copyArr[index];
+          copyArr.splice(index, 1, {
+            ...copyItem,
+            props: {
+              ...copyItem.props,
+              style: {
+                ...copyItem.props.style,
+                top: finalTop,
+                left: finalLeft,
+              },
+            },
+          });
+          return copyArr;
+        });
+      }
+    };
+
+    const handleUp = (e) => {
+      document.removeEventListener('mousemove', handleMove);
+      document.removeEventListener('mouseup', handleUp);
+    };
+
+    // 添加事件
+    document.addEventListener('mousemove', handleMove);
+    document.addEventListener('mouseup', handleUp);
+  };
+
   const containerStyle = {
     position: 'absolute',
     width: `${defaultStyle.width}px`,
@@ -109,7 +167,7 @@ function Resizable({ children, defaultStyle, setData, id, selected }) {
   };
 
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} onMouseDown={(e) => handleDrag(e)}>
       {(selected === id ? points : []).map((point) => (
         <div
           key={point}
