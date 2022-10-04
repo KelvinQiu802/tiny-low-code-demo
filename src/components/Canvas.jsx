@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 
-function Canvas() {
+function Canvas({ data, setData }) {
   const [, drop] = useDrop(() => ({
     accept: 'component',
     drop(item, monitor) {},
