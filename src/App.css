@@ -8,6 +8,7 @@
 .component-list {
   width: 300px;
   height: 100vh;
+  box-sizing: border-box;
   border-right: 1px solid #ccc;
   padding: 30px;
 }
@@ -30,4 +31,10 @@
   width: 300px;
   height: 100vh;
   border-left: 1px solid #ccc;
+}
+
+.point {
+  width: 10px;
+  height: 10px;
+  background-color: skyblue;
 }

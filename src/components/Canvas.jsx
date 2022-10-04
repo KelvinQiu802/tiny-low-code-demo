@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import CustomButton from './custom/CustomButton';
+import Resizable from './custom/Resizable';
 
 function Canvas({ data, setData }) {
   const [, drop] = useDrop(() => ({
@@ -11,12 +12,14 @@ function Canvas({ data, setData }) {
   return (
     <div className='canvas' ref={drop}>
       {data.map((item) => (
-        <CustomButton
-          text={item.props.text}
-          key={item.id}
-          style={item.props.style}
-          variant={item.props.variant}
-        />
+        <Resizable defaultStyle={item.props.style} setData={setData}>
+          <CustomButton
+            text={item.props.text}
+            key={item.id}
+            style={item.props.style}
+            variant={item.props.variant}
+          />
+        </Resizable>
       ))}
     </div>
   );
