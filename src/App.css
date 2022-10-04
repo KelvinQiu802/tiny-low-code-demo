@@ -1,0 +1,25 @@
+.App {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  gap: 30px;
+}
+
+.component-list {
+  width: 300px;
+  height: 100vh;
+  border-right: 1px solid #ccc;
+}
+
+.canvas {
+  flex: 1;
+  height: 100vh;
+  border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+
+.property-list {
+  width: 300px;
+  height: 100vh;
+  border-left: 1px solid #ccc;
+}
