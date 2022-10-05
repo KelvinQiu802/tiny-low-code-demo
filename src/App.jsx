@@ -50,7 +50,7 @@ function App() {
         selected={selected}
         setSelected={setSelected}
       />
-      <PropertyList />
+      <PropertyList data={data} setData={setData} selected={selected} />
     </div>
   );
 }
