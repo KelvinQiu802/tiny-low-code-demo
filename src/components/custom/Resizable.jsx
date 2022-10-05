@@ -123,30 +123,33 @@ function Resizable({ children, defaultStyle, setData, id, selected }) {
       const curY = e.clientY;
       const finalTop = startTop + curY - startY;
       const finalLeft = startLeft + curX - startX;
-      if (
-        0 <= finalTop &&
-        finalTop <= boxHeight - pos.height &&
-        0 <= finalLeft &&
-        finalLeft <= boxWidth - pos.width
-      ) {
-        setData((prev) => {
-          const copyArr = [...prev];
-          const index = prev.findIndex((item) => item.id === id);
-          const copyItem = copyArr[index];
-          copyArr.splice(index, 1, {
-            ...copyItem,
-            props: {
-              ...copyItem.props,
-              style: {
-                ...copyItem.props.style,
-                top: finalTop,
-                left: finalLeft,
-              },
+      setData((prev) => {
+        const copyArr = [...prev];
+        const index = prev.findIndex((item) => item.id === id);
+        const copyItem = copyArr[index];
+        copyArr.splice(index, 1, {
+          ...copyItem,
+          props: {
+            ...copyItem.props,
+            style: {
+              ...copyItem.props.style,
+              top:
+                finalTop <= 0
+                  ? 0
+                  : finalTop >= boxHeight - pos.height
+                  ? boxHeight - pos.height
+                  : finalTop,
+              left:
+                finalLeft <= 0
+                  ? 0
+                  : finalLeft >= boxWidth - pos.width
+                  ? boxWidth - pos.width
+                  : finalLeft,
             },
-          });
-          return copyArr;
+          },
         });
-      }
+        return copyArr;
+      });
     };
 
     const handleUp = (e) => {
